@@ -1,0 +1,22 @@
+import axios from 'axios';
+
+
+function getImagesByQuery(query) {
+  const API_KEY = '53047751-cea4bcad23f1cdb0ee3074407';
+  const urlAdress = 'https://pixabay.com/api/';
+
+  return axios(urlAdress, {
+    params: {
+      key: API_KEY,
+      q: `${query}`,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      per_page: 12,
+    },
+  }).then(({ data }) => {
+    return data;
+  });
+}
+
+export default getImagesByQuery;
