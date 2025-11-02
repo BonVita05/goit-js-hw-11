@@ -20,7 +20,20 @@ form.addEventListener('submit', event => {
   event.preventDefault();
   clearGallery();
 
-  const query = event.target.elements['serch-text'].value.trim();
+  const queryInput = event.target.elements['search-text'];
+  const query = queryInput?.value.trim();
+
+  if (!query) {
+    iziToast.warning({
+      message: 'Please enter a search term before submitting.',
+      position: 'topCenter',
+      timeout: 3000,
+      backgroundColor: '#FFA000',
+      messageColor: 'white',
+      close: false,
+    });
+    return;
+  }
 
   showLoader();
   showSpinner();
@@ -36,7 +49,7 @@ form.addEventListener('submit', event => {
     })
     .catch(error => {
       iziToast.error({
-        message: `${error.message ?? String(err)}`,
+        message: `${error.message ?? String(error)}`,
         position: 'topCenter',
         timeout: 3000,
         backgroundColor: '#EF4040',
@@ -45,7 +58,7 @@ form.addEventListener('submit', event => {
       });
     })
     .finally(() => {
-      event.target.elements['serch-text'].value = '';
+      queryInput.value = '';
       hideLoader();
       hideSpinner();
     });
